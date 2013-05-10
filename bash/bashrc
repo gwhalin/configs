@@ -58,4 +58,4 @@ prompt="${TITLEBAR}${LIGHT_GREEN}\u@\h${RED} ${LIGHT_BLUE}\w${GREEN}$(parse_git_
 
 PROMPT_COMMAND=prompt_func 
 
-. /usr/local/util/devel_scripts/git-completion.bash
+. ~/bin/git-completion.bash
