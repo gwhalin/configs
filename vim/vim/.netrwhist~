@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/Users/greg/dev_work/loosecubes.com/app/views/landing_pages'
+let g:netrw_dirhist_2='/Users/greg/dev_work/loosecubes.com/app'
+let g:netrw_dirhist_3='/Users/greg/dev_work/loosecubes.com/app/controllers'
+let g:netrw_dirhist_4='/Users/greg/dev_work/loosecubes.com/app/views'
+let g:netrw_dirhist_5='/Users/greg/dev_work/loosecubes.com/app/views/listings'
+let g:netrw_dirhist_6='/Users/greg/.vim'

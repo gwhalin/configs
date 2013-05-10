@@ -1,0 +1,61 @@
+# .bashrc
+
+# User specific aliases and functions
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+umask 002
+
+alias ping='ping -n'
+alias more='less'
+alias gitzilla='/usr/bin/perl /usr/local/util/devel_scripts/gitzilla.pl'
+alias jython='/usr/local/meetup/tools/jython'
+
+export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
+#export CATALINA_HOME=/usr/local/tomcat
+export ANT_HOME=/usr/local/ant
+export ANT_OPTS="$ANT_OPTS -Xms768m -Xmx768m"
+
+# Set standard CLASSPATH
+if [ -f /usr/local/util/conf/classpath.sh ]; then
+	. /usr/local/util/conf/classpath.sh
+	export CLASSPATH=.:$CLASSPATH
+fi
+
+export PAGER=less
+export PATH='~/bin:/usr/local/bin:/usr/local/jruby/bin:/usr/local/play:/usr/local/git/bin:/usr/local/ant/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/mysql/bin'
+export RSYNC_RSH=ssh
+export ANT_ALLOW_LATEST='1'
+export ANT_ARGS="-logger org.apache.tools.ant.listener.AnsiColorLogger"
+export GREP_OPTIONS="--color=auto"
+
+RED="\[\033[0;31m\]"
+YELLOW="\[\033[0;33m\]"
+GREEN="\[\033[0;32m\]"
+BLUE="\[\033[0;34m\]"
+LIGHT_BLUE="\[\033[01;34m\]"
+LIGHT_RED="\[\033[1;31m\]"
+LIGHT_GREEN="\[\033[1;32m\]"
+WHITE="\[\033[1;37m\]"
+LIGHT_GRAY="\[\033[0;37m\]"
+COLOR_NONE="\[\033[00m\]" 
+
+function parse_git_dirty {
+	[[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+
+function parse_git_branch {
+	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+} 
+
+function prompt_func() {
+prompt="${TITLEBAR}${LIGHT_GREEN}\u@\h${RED} ${LIGHT_BLUE}\w${GREEN}$(parse_git_branch)${BLUE} \$${COLOR_NONE} "
+	PS1="${prompt}"
+}
+
+PROMPT_COMMAND=prompt_func 
+
+. /usr/local/util/devel_scripts/git-completion.bash

@@ -1,0 +1,126 @@
+set nocompatible
+set nohlsearch
+set incsearch
+set ignorecase
+set ruler
+set showmatch
+set showmode
+set shiftwidth=4
+set tabstop=4
+set esckeys
+set autoread
+set backup
+set wildmenu
+set hidden
+set foldmethod=manual
+set winminheight=0
+set rulerformat=%33([col:\ %02v]\ \ line:\ \(%l\/%L\)%=%P%)
+set tag=/home/gwhalin/tags,./tags,tags
+:syntax enable
+:colorscheme slate
+map gf <C-W>f
+map gc gdb<C-W>f
+
+map = <c-w>10+
+map - <c-w>10-
+
+" gui
+if has("gui_running")
+	set background=dark
+	set guifont=Monospace\ 9
+	:highlight Normal guibg=Black guifg=White
+endif
+
+" jcommenter.vim: (Alt-C)
+autocmd FileType java source $HOME/.vim/plugin/jcommenter.vim
+autocmd FileType java map <C-c> :call JCommentWriter()<CR>
+:filetype plugin indent on
+
+" tabs
+:nmap <C-e> gt
+:nmap <C-t> :tabnew<cr>
+:imap <C-t> <ESC>:tabnew<cr> 
+
+" tab completion
+inoremap <tab> <c-r>=InsertTabWrapper("forward")<cr>
+inoremap <s-tab> <c-r>=InsertTabWrapper("backward")<cr>
+inoremap <c-tab> <c-r>=InsertTabWrapper ("startkey")<cr>
+map <Leader>tc :call ToggleTabCompletion()<cr>
+
+" key mappings for ant
+nnoremap <silent> <F2> :!ant clean<CR><CR>
+nnoremap <silent> <F3> :!ant compile<CR><CR>
+nnoremap <silent> <F4> :!ant jspstage<CR><CR>
+
+" highlight search
+map <F5> :set hls!<bar>set hls?<CR>
+
+" buffer explorer
+nmap <unique> <silent> <F6> <Plug>SelectBuf
+
+" format and jump back to exact cursor position
+nmap gb i<zqfm><esc>gqip?<zqfm><cr>df>
+
+" some buffer controls
+command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+map <C-J> <C-W>j<C-W>_
+map <C-K> <C-W>k<C-W>_
+map <C-H> <C-W>h
+map <C-L> <C-W>l
+map <C-space> <C-W>_
+map <C-W><C-m> <C-W>b<C-W>n<C-W>x<C-W>j<C-W>_
+nmap <Leader>q :bd<cr>
+nmap <Leader>q! :bd!<cr>
+
+ab inf log.info(  );<Left><Left>
+ab sys System.out.println(  );<Left><Left>
+
+"JSTL
+ab cif <c:if test="${}"></c:if><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+ab cchoose <c:choose><CR><Tab><c:when test="${}"></c:when><CR><c:otherwise></c:otherwise><CR><Backspace></c:choose><Up><Up><Right><Right><Right><Right><Right><Right><Right><Right><Right>
+ab cchoosei <c:choose><c:when test="${}"></c:when><c:otherwise></c:otherwise></c:choose><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+ab cforeach <c:forEach var="" items="${}"><CR></c:forEach><Up><Right><Right><Right><Right>
+
+" matchit for JSPs
+let b:match_words = '<%:%>'
+
+" Taglist: http://www.geocities.com/yegappan/taglist/manual.html
+nnoremap <silent> <F8> :Tlist<CR>
+nnoremap <silent> <F7> :TlistUpdate<CR>
+let Tlist_Inc_Winwidth = 0
+let Tlist_Sort_Type = "name"
+let Tlist_Ctags_Cmd = '/usr/bin/exuberant-ctags'
+
+" getter/setter generation for java
+ca getset s/\(public\\|private\\|protected\)\s\(\w\+\)\s\(\w\+\).*;/&\rpublic \2 get\u\3() { return this.\3; }\rpublic void set\u\3( \2 \3 ) { this.\3 = \3; }/
+nnoremap <silent> <M-g> :s/\(public\\|private\\|protected\)\s\(\w\+\)\s\(\w\+\).*;/&\rpublic \2 get\u\3() { return this.\3; }\rpublic void set\u\3( \2 \3 ) { this.\3 = \3; }/<CR>:noh<CR>
+
+nmap <C-W>] <C-W>g<C-]>
+
+"let g:showmarks_enable=0 "disable showmarks by default
+let g:showmarks_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+let g:cppcomplete_placeholders=1
+
+"common dir changes
+nmap <Leader>cm :cd /usr/local/meetup<cr>
+nmap <Leader>em :e /usr/local/meetup<cr>
+
+"MAKE IT EASY TO UPDATE/RELOAD_vimrc
+nmap <Leader>ssv :source ~/.vimrc<cr>
+nmap <Leader>ev :e ~/.vimrc<cr>
+
+set diffopt=filler,iwhite
+
+" do diffs against buffer on disk
+command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+
+" cvs stuff
+augroup CVSCommand
+	au CVSCommand User CVSBufferCreated silent! nmap <buffer> q :bwipeout<cr>
+augroup END
+
+let Grep_Default_Filelist = '*.java *.jsp *.jinc *.inc *.css *.js *.email *.xml *.html *.properties *.vm *.tag'
+let Grep_Skip_Dirs = 'classes dist lib CVS entity' 
+let Grep_Skip_Files = '*.swp'
+nnoremap <silent> <C-S-N> :Rgrep<CR>
+nnoremap <silent> <C-S-I> :Rgrep -i<CR>
