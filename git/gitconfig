@@ -1,0 +1,17 @@
+[user]
+	name = Greg Whalin
+	email = greg@whalin.com
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[push]
+	default = current
+[diff]
+	renames = true
+[alias]
+	ci = commit -a
+	co = checkout
+	st = status
+[credential]
+	helper = osxkeychain
