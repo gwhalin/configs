@@ -6,7 +6,7 @@
 	status = auto
 	branch = auto
 [push]
-	default = current
+	default = tracking
 [diff]
 	renames = true
 [alias]
@@ -15,3 +15,5 @@
 	st = status
 [credential]
 	helper = osxkeychain
+[branch]
+	autosetuprebase = always
